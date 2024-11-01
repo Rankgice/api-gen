@@ -21,26 +21,40 @@ func main() {
 	flag.Parse()
 	if *sqlUrl == "" {
 		log.Fatalln("Error: --url flag is required")
+		return
 	} else if *table == "" {
 		log.Fatalln("Error: --table flag is required")
+		return
 	}
+	//自动补全斜杠
 	if (*dir)[len(*dir)-1] != '/' {
 		*dir += "/"
 	}
+
+	// 声明变量
+	var (
+		tableName    = utils.ToCamelCase(*table)
+		TableName    = utils.ToPascalCase(*table)
+		TableInfo    string
+		tableComment string
+	)
 	// 数据库连接信息
 	dsn := *sqlUrl + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalln("Error connect to mysql", err)
+		return
 	}
 	defer db.Close()
 	// 测试连接
 	err = db.Ping()
 	if err != nil {
 		log.Fatalln("Error connect to database", err)
+		return
 	}
 	database := utils.ParseDatabaseName(*sqlUrl)
-	// 查询数据
+
+	// 查询表字段
 	rows, err := db.Query(`
 		SELECT 
 			COLUMN_NAME AS "field",
@@ -56,16 +70,12 @@ func main() {
 			TABLE_SCHEMA = ? 
 			AND TABLE_NAME = ?
 			ORDER BY ORDINAL_POSITION
-	`, database, *table)
+		`, database, *table)
 	if err != nil {
 		log.Fatalln("Error query data:", err)
 		return
 	}
 	defer rows.Close()
-
-	tableName := utils.ToCamelCase(*table)
-	TableName := utils.ToPascalCase(*table)
-	var TableInfo string
 
 	for rows.Next() {
 		var field, dataType, nullable, key, extra, comment string
@@ -73,15 +83,34 @@ func main() {
 		err := rows.Scan(&field, &dataType, &nullable, &key, &defaultVal, &extra, &comment)
 		if err != nil {
 			log.Fatalln("Error resolving database data:", err)
+			return
 		}
 		TableInfo += utils.GenerateField(field, dataType, nullable, key, defaultVal, extra, comment)
 	}
 
+	// 查询表注释
+	err = db.QueryRow(`
+		SELECT TABLE_COMMENT 
+		FROM INFORMATION_SCHEMA.TABLES
+		WHERE 
+			TABLE_SCHEMA = ? 
+			AND TABLE_NAME = ?
+		`, database, *table).Scan(&tableComment)
+	if err != nil {
+		log.Fatalln("Error querying table comment: ", err)
+		return
+	}
+	// 将 xxx表 => xxx, 去掉最后的'表'字
+	if []rune(tableComment)[len([]rune(tableComment))-1] == '表' {
+		tableComment = string([]rune(tableComment)[:len([]rune(tableComment))-1])
+	}
+	//封装替换map
 	replaceMap := map[string]string{
-		"prefix":    *prefix,
-		"tableName": tableName,
-		"TableName": TableName,
-		"TableInfo": TableInfo[:len(TableInfo)-1],
+		"prefix":       *prefix,
+		"tableName":    tableName,
+		"TableName":    TableName,
+		"TableInfo":    TableInfo[:len(TableInfo)-1],
+		"tableComment": tableComment,
 	}
 	var data []byte
 	if *home == "" {
@@ -89,6 +118,7 @@ func main() {
 		data, err = Asset("tpl/api.tpl")
 		if err != nil {
 			log.Fatalf("Error reading embedded template: %v", err)
+			return
 		}
 	} else {
 		// 读取用户指定的模板文件

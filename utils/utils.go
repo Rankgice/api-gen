@@ -57,7 +57,7 @@ func MysqlTypeToGOType(mysqlType string) string {
 func GenerateField(field, dataType, nullable, key string, val sql.NullString, extra, comment string) string {
 	FieldName := ToPascalCase(field)
 	fieldType := MysqlTypeToGOType(dataType)
-	return fmt.Sprintf("\t%s\t%s\t`json:\"%s,optional\" form:\"%s,optional\"`\n", FieldName, fieldType, field, field)
+	return fmt.Sprintf("\t%s\t%s\t`json:\"%s,optional\" form:\"%s,optional\"` // %s\n", FieldName, fieldType, field, field, comment)
 }
 
 //return fmt.Sprintf(`%s     %s  ``json:"%s,optional" form:"%s,optional"```, FieldName,fieldType,field,field)
