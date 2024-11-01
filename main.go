@@ -1,10 +1,10 @@
 package main
 
 import (
-	"apiGen/utils"
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/Rankgice/api-gen/utils"
 	_ "github.com/go-sql-driver/mysql" // 导入 MySQL 驱动
 	"log"
 	"os"
