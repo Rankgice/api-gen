@@ -101,8 +101,11 @@ func main() {
 		return
 	}
 	// 将 xxx表 => xxx, 去掉最后的'表'字
-	if []rune(tableComment)[len([]rune(tableComment))-1] == '表' {
-		tableComment = string([]rune(tableComment)[:len([]rune(tableComment))-1])
+	tableCommentRunes := []rune(tableComment)
+	if len(tableCommentRunes) == 0 {
+		tableComment = "业务"
+	} else if tableCommentRunes[len(tableCommentRunes)-1] == '表' {
+		tableComment = string(tableCommentRunes[:len(tableCommentRunes)-1])
 	}
 	//封装替换map
 	replaceMap := map[string]string{
