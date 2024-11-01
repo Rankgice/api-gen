@@ -1,4 +1,4 @@
-module apiGen
+module github.com/Rankgice/api-gen
 
 go 1.23.2
 
