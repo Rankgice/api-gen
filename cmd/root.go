@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/Rankgice/api-gen/cmd/api"
+	"github.com/Rankgice/api-gen/cmd/rpc"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -24,9 +25,7 @@ var apiCmd = &cobra.Command{
 var rpcCmd = &cobra.Command{
 	Use:   "rpc",
 	Short: "Generate RPC definition from Mysql",
-	Run: func(cmd *cobra.Command, args []string) {
-
-	},
+	Run:   rpc.RunRpc,
 }
 
 func init() {
@@ -45,8 +44,14 @@ func init() {
 	_ = apiCmd.MarkFlagRequired("table")
 
 	// 为 rpc 子命令定义参数
-	rpcCmd.Flags().StringP("url", "u", "", "The URL to connect to the MySQL database (required)")
+	rpcCmd.Flags().StringP("url", "u", "", "The data source of database,like \"root:password@tcp(127.0.0.1:3306)/database\" (required)")
+	rpcCmd.Flags().StringP("table", "t", "", "The name of the database table (required)")
+	rpcCmd.Flags().StringP("dir", "d", "./pb", "The target dir")
+	rpcCmd.Flags().StringP("prefix", "p", "/prefix", "This is the API file routing prefix")
+	rpcCmd.Flags().StringP("home", "", "", "The apiGen home path of the template")
+	rpcCmd.Flags().StringP("service", "s", "", "This is the service name of the API file")
 	_ = rpcCmd.MarkFlagRequired("url")
+	_ = rpcCmd.MarkFlagRequired("table")
 }
 
 func Execute() {

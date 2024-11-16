@@ -8,6 +8,6 @@ info (
 )
 
 import (
-	"common.api"
+	"#{tableName}/#{tableName}.api"
 )
 

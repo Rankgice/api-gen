@@ -216,20 +216,8 @@ func ReplaceTemplate(input string, replaceMap map[string]string) (result string)
 	for i := 0; i < inputLen; i++ {
 		curRune := inputRune[i]
 		switch curRune {
-		case '\'':
-			if inputRune[l] == '\'' && l != i {
-				l = i + 1
-			} else if inputRune[l] != '"' && inputRune[l] != '{' {
-				l = i
-			}
-		case '"':
-			if inputRune[l] == '"' && l != i {
-				l = i + 1
-			} else if inputRune[l] != '\'' && inputRune[l] != '{' {
-				l = i
-			}
 		case '{':
-			if inputRune[l] != '\'' && inputRune[l] != '"' && i > 0 && inputRune[i-1] == '#' {
+			if i > 0 && inputRune[i-1] == '#' {
 				l = i
 			}
 		case '}':
