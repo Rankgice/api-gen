@@ -176,7 +176,7 @@ func QueryTableComment(db *sql.DB, databaseName, tableName string) (tableComment
 	return
 }
 
-func GenApiFile(dir, fileName, data string) {
+func GenFile(dir, fileName, data string) {
 	//检查上级目录是否存在，不存在则创建
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		fmt.Println("Error creating directory:", err)

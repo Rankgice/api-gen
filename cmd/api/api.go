@@ -124,10 +124,10 @@ func RunApi(cmd *cobra.Command, args []string) {
 	result := utils.ReplaceTemplate(string(data), replaceMap)
 	fileDir := dir + "/" + tableName
 	fileName := fmt.Sprintf("%s.api", tableName)
-	utils.GenApiFile(fileDir, fileName, result)
+	utils.GenFile(fileDir, fileName, result)
 	//生成common.api
-	utils.GenApiFile(dir, "common.api", string(commonData))
+	utils.GenFile(dir, "common.api", string(commonData))
 	//生成#{service}.api
 	serviceResult := utils.ReplaceTemplate(string(serviceData), replaceMap)
-	utils.GenApiFile(dir, fmt.Sprintf("%s.api", service), serviceResult)
+	utils.GenFile(dir, fmt.Sprintf("%s.api", service), serviceResult)
 }

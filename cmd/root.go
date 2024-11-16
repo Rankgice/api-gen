@@ -47,9 +47,8 @@ func init() {
 	rpcCmd.Flags().StringP("url", "u", "", "The data source of database,like \"root:password@tcp(127.0.0.1:3306)/database\" (required)")
 	rpcCmd.Flags().StringP("table", "t", "", "The name of the database table (required)")
 	rpcCmd.Flags().StringP("dir", "d", "./pb", "The target dir")
-	rpcCmd.Flags().StringP("prefix", "p", "/prefix", "This is the API file routing prefix")
+	rpcCmd.Flags().StringP("package", "p", "", "This is the name of the generated PB file package")
 	rpcCmd.Flags().StringP("home", "", "", "The apiGen home path of the template")
-	rpcCmd.Flags().StringP("service", "s", "", "This is the service name of the API file")
 	_ = rpcCmd.MarkFlagRequired("url")
 	_ = rpcCmd.MarkFlagRequired("table")
 }
