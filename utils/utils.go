@@ -56,12 +56,10 @@ func MysqlTypeToApiType(mysqlType string) string {
 	switch mysqlType {
 	case "int", "tinyint", "smallint", "mediumint", "bigint":
 		return "int64"
-	case "varchar", "char", "text", "tinytext", "mediumtext", "longtext":
+	case "varchar", "char", "json", "text", "tinytext", "mediumtext", "longtext":
 		return "string"
-	case "float", "double":
+	case "float", "double", "decimal":
 		return "float64"
-	case "decimal":
-		return "string"
 	case "date", "datetime", "timestamp":
 		return "string"
 	case "boolean":
@@ -76,12 +74,10 @@ func MysqlTypeToProtoType(mysqlType string) string {
 	switch mysqlType {
 	case "int", "tinyint", "smallint", "mediumint", "bigint":
 		return "int64"
-	case "varchar", "char", "text", "tinytext", "mediumtext", "longtext":
+	case "varchar", "char", "json", "text", "tinytext", "mediumtext", "longtext":
 		return "string"
-	case "float", "double":
-		return "float64"
-	case "decimal":
-		return "string"
+	case "float", "double", "decimal":
+		return "double"
 	case "date", "datetime", "timestamp":
 		return "string"
 	case "boolean":
