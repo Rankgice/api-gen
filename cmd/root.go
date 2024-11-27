@@ -40,6 +40,7 @@ func init() {
 	apiCmd.Flags().StringP("prefix", "p", "/prefix", "This is the API file routing prefix")
 	apiCmd.Flags().StringP("home", "", "", "The apiGen home path of the template")
 	apiCmd.Flags().StringP("service", "s", "", "This is the service name of the API file")
+	apiCmd.Flags().BoolP("y", "y", false, "Is mandatory coverage required")
 	_ = apiCmd.MarkFlagRequired("url")
 	_ = apiCmd.MarkFlagRequired("table")
 
@@ -49,6 +50,7 @@ func init() {
 	rpcCmd.Flags().StringP("dir", "d", "./pb", "The target dir")
 	rpcCmd.Flags().StringP("package", "p", "", "This is the name of the generated PB file package")
 	rpcCmd.Flags().StringP("home", "", "", "The apiGen home path of the template")
+	rpcCmd.Flags().BoolP("y", "y", false, "Is mandatory coverage required")
 	_ = rpcCmd.MarkFlagRequired("url")
 	_ = rpcCmd.MarkFlagRequired("table")
 }

@@ -17,7 +17,7 @@ func RunApi(cmd *cobra.Command, args []string) {
 	prefix, _ := cmd.Flags().GetString("prefix")
 	home, _ := cmd.Flags().GetString("home")
 	service, _ := cmd.Flags().GetString("service")
-
+	y, _ := cmd.Flags().GetBool("y")
 	//解析数据库名
 	database := utils.ParseDatabaseName(url)
 	if service == "" {
@@ -124,10 +124,10 @@ func RunApi(cmd *cobra.Command, args []string) {
 	result := utils.ReplaceTemplate(string(data), replaceMap)
 	fileDir := dir + "/" + tableName
 	fileName := fmt.Sprintf("%s.api", tableName)
-	utils.GenFile(fileDir, fileName, result)
+	utils.GenFile(fileDir, fileName, result, y)
 	//生成common.api
-	utils.GenFile(dir, "common.api", string(commonData))
+	utils.GenFile(dir, "common.api", string(commonData), false)
 	//生成#{service}.api
 	serviceResult := utils.ReplaceTemplate(string(serviceData), replaceMap)
-	utils.GenFile(dir, fmt.Sprintf("%s.api", service), serviceResult)
+	utils.GenFile(dir, fmt.Sprintf("%s.api", service), serviceResult, false)
 }

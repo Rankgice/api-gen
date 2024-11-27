@@ -16,6 +16,7 @@ func RunRpc(cmd *cobra.Command, args []string) {
 	dir, _ := cmd.Flags().GetString("dir")
 	packageName, _ := cmd.Flags().GetString("package")
 	home, _ := cmd.Flags().GetString("home")
+	y, _ := cmd.Flags().GetBool("y")
 
 	//解析数据库名
 	database := utils.ParseDatabaseName(url)
@@ -106,5 +107,5 @@ func RunRpc(cmd *cobra.Command, args []string) {
 	}
 	//根据模板进行替换,生成API文件
 	result := utils.ReplaceTemplate(string(data), replaceMap)
-	utils.GenFile(dir, fmt.Sprintf("%s.proto", tableName), result)
+	utils.GenFile(dir, fmt.Sprintf("%s.proto", tableName), result, y)
 }

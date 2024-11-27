@@ -172,7 +172,7 @@ func QueryTableComment(db *sql.DB, databaseName, tableName string) (tableComment
 	return
 }
 
-func GenFile(dir, fileName, data string) {
+func GenFile(dir, fileName, data string, recover bool) {
 	//检查上级目录是否存在，不存在则创建
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		fmt.Println("Error creating directory:", err)
@@ -180,7 +180,7 @@ func GenFile(dir, fileName, data string) {
 	}
 	absFileName := dir + "/" + fileName
 	// 检查文件是否存在
-	if _, err := os.Stat(absFileName); os.IsNotExist(err) {
+	if _, err := os.Stat(absFileName); os.IsNotExist(err) || recover {
 		// 文件不存在，创建并写入数据
 		err := os.WriteFile(absFileName, []byte(data), 0644)
 		if err != nil {
