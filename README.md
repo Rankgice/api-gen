@@ -22,7 +22,7 @@ api文件路由前缀（默认为`/prefix`）
 api服务名（默认为数据库名的小驼峰）
 - **-y**
 
-是否强制覆盖（即使开启强制覆盖，也不会覆盖service.api和common.api文件） 
+是否强制覆盖（即使开启强制覆盖，也不会覆盖service.api和common.api文件）
 
 ### 根据数据库表生成proto文件
 
