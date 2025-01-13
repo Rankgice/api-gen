@@ -63,8 +63,8 @@ func RunRpc(cmd *cobra.Command, args []string) {
 			fieldInfo.Key, fieldInfo.DefaultVal, fieldInfo.Extra, fieldInfo.Comment, i)
 	}
 	//生成rpc分页字段信息
-	TableInfoProtoPage += fmt.Sprintf("\tint64 page = %d; // 页码\n", len(filedList)+1)
-	TableInfoProtoPage += fmt.Sprintf("\tint64 pageSize = %d; // 每页数量", len(filedList)+2)
+	TableInfoProtoPage += fmt.Sprintf("\tint64 Page = %d; // 页码\n", len(filedList)+1)
+	TableInfoProtoPage += fmt.Sprintf("\tint64 PageSize = %d; // 每页数量", len(filedList)+2)
 
 	// 查询表注释
 	tableComment, err = utils.QueryTableComment(db, database, table)
