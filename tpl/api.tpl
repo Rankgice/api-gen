@@ -6,27 +6,27 @@ import "../common.api"
     group: #{tableName}
 )
 service #{serviceName} {
-    //查询#{tableComment}列表
+    @doc "查询#{tableComment}列表"
     @handler Get#{TableName}List
     get /#{tableName}/list (#{TableName}Req) returns (#{TableName}ListRes)
 
-    //查询#{tableComment}详情
+    @doc "查询#{tableComment}详情"
     @handler Get#{TableName}Info
     get /#{tableName}/info/:id (IdReq) returns (#{TableName}InfoRes)
 
-    //新增#{tableComment}
+    @doc "新增#{tableComment}"
     @handler Add#{TableName}
     post /#{tableName}/add (#{TableName}InfoRes) returns (string)
 
-    //删除#{tableComment}
+    @doc "删除#{tableComment}"
     @handler Del#{TableName}
     delete /#{tableName}/delete/:id (IdReq) returns (string)
 
-    //批量删除#{tableComment}
+    @doc "批量删除#{tableComment}"
     @handler BatchDel#{TableName}
     delete /#{tableName}/batchDelete (IdListReq) returns (string)
 
-    //修改#{tableComment}
+    @doc "修改#{tableComment}"
     @handler Update#{TableName}
     put /#{tableName}/update (#{TableName}InfoRes) returns (string)
 }
