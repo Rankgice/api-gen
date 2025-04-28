@@ -2,33 +2,33 @@ syntax = "v1"
 
 import "../common.api"
 @server (
-    prefix: #{prefix}
+    prefix: #{prefix}/#{tableName}
     group: #{tableName}
 )
 service #{serviceName} {
     @doc "查询#{tableComment}列表"
     @handler Get#{TableName}List
-    get /#{tableName}/list (#{TableName}Req) returns (#{TableName}ListRes)
+    get / (#{TableName}Req) returns (#{TableName}ListRes)
 
     @doc "查询#{tableComment}详情"
     @handler Get#{TableName}Info
-    get /#{tableName}/info/:id (IdReq) returns (#{TableName}InfoRes)
+    get /:id (IdReq) returns (#{TableName}InfoRes)
 
     @doc "新增#{tableComment}"
     @handler Add#{TableName}
-    post /#{tableName}/add (#{TableName}InfoRes) returns (string)
+    post / (#{TableName}InfoRes) returns (string)
 
     @doc "删除#{tableComment}"
     @handler Del#{TableName}
-    delete /#{tableName}/delete/:id (IdReq) returns (string)
+    delete /:id (IdReq) returns (string)
 
     @doc "批量删除#{tableComment}"
     @handler BatchDel#{TableName}
-    delete /#{tableName}/batchDelete (IdListReq) returns (string)
+    delete /batch (IdListReq) returns (string)
 
     @doc "修改#{tableComment}"
     @handler Update#{TableName}
-    put /#{tableName}/update (#{TableName}InfoRes) returns (string)
+    put / (#{TableName}InfoRes) returns (string)
 }
 type #{TableName}Req {
 #{TableInfo}
